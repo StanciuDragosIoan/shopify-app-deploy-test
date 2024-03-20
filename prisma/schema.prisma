@@ -1,0 +1,58 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Session {
+  id           String      @id @default(cuid())
+  shop         String
+  state        String
+  isOnline     Boolean     @default(false)
+  scope        String?
+  expires      DateTime?
+  accessToken  String
+  userId       BigInt?
+  UserConfig   UserConfig? @relation(fields: [userConfigId], references: [id])
+  userConfigId String?
+}
+
+model UserConfig {
+  id         String     @id @default(cuid())
+  platform   Platform[]
+  platformId String
+  session    Session[]
+  stores     Store[]
+}
+
+model Platform {
+  id                       String      @id @default(cuid())
+  platform_name            String
+  platform_api_login       String
+  platform_api_key         String
+  platform_return_endpoint String
+  UserConfig               UserConfig? @relation(fields: [userConfigId], references: [id])
+  userConfigId             String?
+}
+
+model Store {
+  id                    String      @id @default(cuid())
+  UserConfig            UserConfig? @relation(fields: [userConfigId], references: [id])
+  userConfigId          String?
+  store_name            String
+  store_prefix          String
+  shopify_access_token  String
+  ir_order_service      String
+  ir_headless_api_token String
+  ir_client             String
+  ir_parcelType         String
+  frontend              String
+  ir_itemType           String
+  createdAt             DateTime
+}

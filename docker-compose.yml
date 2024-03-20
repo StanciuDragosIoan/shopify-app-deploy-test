@@ -1,0 +1,45 @@
+version: "3.8"
+
+services:
+  pgdev:
+    image: postgres:latest
+    container_name: pgdev
+    # network_mode: "bridge"  
+    network_mode: "host" 
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: pg_pass
+    ports:
+      - "5432:5432"
+    # networks: 
+    #   - shopify-sample-net
+    
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile-dev
+ 
+    expose:
+      - "8081"
+    working_dir: /app
+    network_mode: "host"  
+    # networks: 
+    #   - shopify-sample-net
+ 
+    depends_on:
+      - pgdev
+    env_file:
+      - .env
+
+# networks:
+#   shopify-sample-net:
+#     name: shopify-sample-net
+
+ 
+
+    
+  #  docker run -–name pgdev -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=pg_dpass -v pgdata:/var/lib/postgresql/data -p 5432:5432 postgres

@@ -1,0 +1,28 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+client_id = "89cee4d88f5b1e89e7ae02fbb23b793f"
+name = "rebound-app"
+application_url = "https://weblogs-likes-wisconsin-lexington.trycloudflare.com"
+embedded = true
+
+[build]
+automatically_update_urls_on_dev = true
+dev_store_url = "dragos-awesome-store.myshopify.com"
+include_config_on_deploy = true
+
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+scopes = ""
+
+[auth]
+redirect_urls = [
+  "https://weblogs-likes-wisconsin-lexington.trycloudflare.com/auth/callback",
+  "https://weblogs-likes-wisconsin-lexington.trycloudflare.com/auth/shopify/callback",
+  "https://weblogs-likes-wisconsin-lexington.trycloudflare.com/api/auth/callback"
+]
+
+[webhooks]
+api_version = "2024-01"
+
+[pos]
+embedded = false
